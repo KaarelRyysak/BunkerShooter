@@ -32,4 +32,10 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    IEnumerator MoveForwards()
+    {
+        Vector3 targetVector = destination.transform.position;
+        navMeshAgent.SetDestination(targetVector);
+        yield return null;
+    }
 }
