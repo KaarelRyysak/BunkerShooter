@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     private UnityEngine.AI.NavMeshAgent navMeshAgent;
-    [SerializeField] private ENEMY_STATE state;
+    private ENEMY_STATE state;
     [SerializeField] private int health = 8;
 
     [SerializeField] private float maxDistanceFromCover = 10f;
@@ -16,7 +16,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.5f;
     
     #region unity methods
-
     void Awake()
     {
         navMeshAgent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -41,7 +40,7 @@ public class EnemyAI : MonoBehaviour
             navMeshAgent.SetDestination(targetPos);
         }
     }
-    private void MoveAgentForwards()
+    private void MoveAgentDestinationForwards()
     {
         Vector3 targetPos = this.transform.position + (Vector3.left * 20f);
         navMeshAgent.SetDestination(targetPos);
@@ -81,7 +80,7 @@ public class EnemyAI : MonoBehaviour
                 GameController.I.IncreaseScore(1);
             }
 
-            //Trigger visual effect
+            // trigger visual damage effect
             StopCoroutine("FadeBetweenColors");
             StartCoroutine("FadeBetweenColors");
         }
@@ -94,7 +93,6 @@ public class EnemyAI : MonoBehaviour
             GameController.I.DamagePlayer(1);
         }
     }
-
     #endregion
 
 #region coroutines
@@ -109,7 +107,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // We're using a finite state machine to control this AI
+    // we're using a finite state machine to control this AI
     IEnumerator EnemyFSM()
     {
         while (true)
@@ -120,28 +118,28 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator RUNNING()
     {
-        //Entering the state
+        // entering the state
 
         while (state == ENEMY_STATE.RUNNING)
         {
-            MoveAgentForwards();
+            MoveAgentDestinationForwards();
 
             yield return new WaitForSeconds(0.5f);
         }
 
-        //leaving the state
+        // leaving the state
     }
 
     IEnumerator ESCAPING()
     {
-        //Entering the state
+        // entering the state
 
         while (state == ENEMY_STATE.ESCAPING)
         {
             CoveredSpot closestSpot = FindClosestUnoccupiedCover();
             float distanceFromClosestSpot = Vector3.Magnitude(transform.position - closestSpot.transform.position);
             
-            //If the hiding spot is too far away, the enemy will give up on escaping
+            // if the hiding spot is too far away, the enemy will give up on escaping
             if (distanceFromClosestSpot > maxDistanceFromCover)
             {
                 state = ENEMY_STATE.RUNNING;
@@ -152,7 +150,7 @@ public class EnemyAI : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
 
-            //If the enemy has moved sufficiently close to a hiding spot, they stop and hide
+            // when the enemy has moved sufficiently close to a hiding spot, they stop and hide
             distanceFromClosestSpot = Vector3.Magnitude(transform.position - closestSpot.transform.position);
             if (distanceFromClosestSpot < hidingSpotSize)
             {
@@ -160,17 +158,17 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        //leaving the state
+        // leaving the state
     }
 
     IEnumerator HIDING()
     {
-        //Entering the state
+        // entering the state
 
         yield return new WaitForSeconds(2f);
         state = ENEMY_STATE.RUNNING;
 
-        //leaving the state
+        // leaving the state
     }
 #endregion
 

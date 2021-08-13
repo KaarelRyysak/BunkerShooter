@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CoveredSpot : MonoBehaviour
 {
-    public List<EnemyAI> occupiers;
+    public List<EnemyAI> occupiers; // all enemies within the spot's area (ideally only one)
 
     private void Awake()
     {

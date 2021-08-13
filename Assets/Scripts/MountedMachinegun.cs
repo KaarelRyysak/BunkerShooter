@@ -24,21 +24,20 @@ public class MountedMachinegun : MonoBehaviour
         firingEnabled = true;
     }
 
-
     void Update() {
-        //We raycast our mouse position to find where to point the gun
+        // We raycast our mouse position to the world, so that we can point the gun there
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask)) {
             targetingDot.transform.position = raycastHit.point;
 
-            //The weapon muzzle is aimed towards raycast target
+            // The weapon muzzle will be aimed towards the raycast target
             Vector3 aimDirectionVector = raycastHit.point - weaponMuzzle.position;
             aimDirectionVector = Vector3.Normalize(aimDirectionVector);
             Quaternion newRot = Quaternion.LookRotation(aimDirectionVector);
             
             weaponModel.transform.rotation = Quaternion.RotateTowards(weaponModel.transform.rotation, newRot, Time.deltaTime * turnSpeed);
 
-            //If the weapon is pointed too low or high, let's rotate it back
+            // If the weapon is pointed too low or high, let's rotate it back
             Vector3 forward = weaponModel.transform.forward;
             Vector3 horizontal = new Vector3(forward.x, 0, forward.z);
             var deviationInDegrees = Vector3.Angle(horizontal, forward);
@@ -68,8 +67,8 @@ public class MountedMachinegun : MonoBehaviour
 
             //The bullets are rigidbodies without gravity
             GameObject newBullet = GameObject.Instantiate(bulletPrefab, weaponMuzzle.position, weaponModel.transform.rotation);
-            Rigidbody bulletRigidbody = newBullet.GetComponent<Rigidbody>();
             
+            Rigidbody bulletRigidbody = newBullet.GetComponent<Rigidbody>();
             if (bulletRigidbody == null)
             {
                 Debug.LogError("There is no rigidbody attached to " + newBullet.gameObject.name);

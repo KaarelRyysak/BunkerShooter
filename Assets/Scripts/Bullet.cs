@@ -6,9 +6,10 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float lifetime = 20f;
     [SerializeField] private float suppressionRadius = 10f;
-    // Start is called before the first frame update
+
     void Start()
     {
+        // If the bullet somehow flies into space, it will delete itself
         Invoke("Vanish", lifetime);
     }
 
@@ -19,7 +20,7 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        //Suppress surrounding enemies
+        // Suppress surrounding enemies
         Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, suppressionRadius);
         foreach (var nearbyCollider in nearbyColliders)
         {
@@ -36,8 +37,7 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-
+        //Destroy bullet on contact with anything
         GameObject.Destroy(this.gameObject);
-        //Debug.Log("bullet colliding with " + collision.gameObject.name);
     }
 }

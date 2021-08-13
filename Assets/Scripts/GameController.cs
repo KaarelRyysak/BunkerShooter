@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
 
     public PlayerStats playerStats;
 
-    // Game screens to enable/disable
+    // UI elements and screens
     [System.Serializable]
     private class ScreenData{
         public GameObject hud;

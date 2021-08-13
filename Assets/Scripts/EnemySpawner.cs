@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    //The enemies will be spawned at random points between the start and end
+    // The enemies will be spawned at random points between the start and end
     public Transform spawnerStartPoint;
     public Transform spawnerEndPoint;
     public GameObject enemyPrefab;
@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // Display the explosion radius when selected
+        // While selected, draw a line representing potential spawnpoints
         Gizmos.color = new Color(0, 0, 1, 0.5F);
         Gizmos.DrawLine(spawnerStartPoint.position, spawnerEndPoint.position);
     }
@@ -34,8 +34,9 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        //Find the vector from start point to end point and multiply that by random variable
-        //Add the result to the start point
+        // In order to find new enemy spawnpoint, we:
+        // 1. Find the vector from start point to end point and multiply that by random variable
+        // 2. Add the resulting vector to the start point
         while (true)
         {  
             float randomVar = Random.Range(0f, 1f);
