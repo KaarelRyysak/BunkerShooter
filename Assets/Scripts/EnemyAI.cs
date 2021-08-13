@@ -165,12 +165,12 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator HIDING()
     {
-        //Entering the state (crouch here ??)
+        //Entering the state
 
         yield return new WaitForSeconds(2f);
         state = ENEMY_STATE.RUNNING;
 
-        //leaving the state (uncrouch ??)
+        //leaving the state
     }
 #endregion
 

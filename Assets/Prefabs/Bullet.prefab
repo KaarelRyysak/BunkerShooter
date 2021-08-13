@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1864791558330200119}
   - component: {fileID: 9178030439162383953}
   - component: {fileID: 6121706999879242095}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: bullet_model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5908957220824662252}
   - component: {fileID: 5908957220824662255}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: bullet_trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 5908957221141644454}
   - component: {fileID: -3762259019879809374}
   - component: {fileID: -3144822978250597338}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -312,3 +312,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 20
+  suppressionRadius: 10

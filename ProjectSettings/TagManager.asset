@@ -11,7 +11,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Bunker
+  - Bunker, Bullet
   - Water
   - UI
   - Enemy

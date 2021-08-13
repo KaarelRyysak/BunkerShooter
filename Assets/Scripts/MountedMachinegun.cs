@@ -14,6 +14,7 @@ public class MountedMachinegun : MonoBehaviour
     [SerializeField] private float turnSpeed;
     [SerializeField] private float bulletVelocity;
     [SerializeField] private float fireRate;
+    [SerializeField] private float weaponSpread;
     private float lastFireTimestamp;
     private bool firingEnabled;
 
@@ -64,7 +65,7 @@ public class MountedMachinegun : MonoBehaviour
         if (Time.time > lastFireTimestamp + fireRate)
         {
             lastFireTimestamp = Time.time;
-            
+
             //The bullets are rigidbodies without gravity
             GameObject newBullet = GameObject.Instantiate(bulletPrefab, weaponMuzzle.position, weaponModel.transform.rotation);
             Rigidbody bulletRigidbody = newBullet.GetComponent<Rigidbody>();
@@ -75,6 +76,11 @@ public class MountedMachinegun : MonoBehaviour
             }
             else {
                 Vector3 forceVector = direction.normalized * bulletVelocity;
+
+                //Adding random weapon spread
+                Quaternion randomRotation = Quaternion.Euler(0, Random.Range(-weaponSpread, weaponSpread), Random.Range(-weaponSpread, weaponSpread));
+                forceVector = randomRotation * forceVector;
+
                 bulletRigidbody.AddForce(forceVector, ForceMode.VelocityChange);
             }
         }

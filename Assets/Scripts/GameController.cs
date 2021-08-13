@@ -44,13 +44,20 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            this.screenData.exitGamePopup.SetActive(!this.screenData.exitGamePopup.activeSelf);
+            bool popupOpen = this.screenData.exitGamePopup.activeSelf;
+            this.screenData.exitGamePopup.SetActive(!popupOpen);
+
+            if (!popupOpen) { PauseGame(); }
+            else { ResumeGame(); }
         }
     }
 
     void Start()
     {
         screenData.hud.SetActive(true);
+        screenData.gameOver.SetActive(false);
+        screenData.exitGamePopup.SetActive(false);
+        LockCursor();
     }
 
     public void CloseGame()
@@ -77,11 +84,7 @@ public class GameController : MonoBehaviour
         screenData.hud.SetActive(false);
         screenData.gameOver.SetActive(true);
 
-        // Stop the game
-        Time.timeScale = 0f;
-        enemySpawner.StopSpawner();
-        machinegun.SetFiringEnabled(false);
-        
+        PauseGame();
 
         if (playerStats.score > playerStats.highscore)
         {
@@ -98,5 +101,34 @@ public class GameController : MonoBehaviour
         //Reloading the scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
+    }
+
+    private void PauseGame()
+    {
+        Time.timeScale = 0f;
+        enemySpawner.StopSpawner();
+        machinegun.SetFiringEnabled(false);
+        Cursor.lockState = CursorLockMode.None;
+        UnlockCursor();
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        enemySpawner.StartSpawner();
+        machinegun.SetFiringEnabled(true);
+        LockCursor();
+    }
+
+    private void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+    }
+
+    private void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

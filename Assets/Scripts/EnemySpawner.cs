@@ -19,6 +19,11 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        StartSpawner();
+    }
+
+    public void StartSpawner()
+    {
         StartCoroutine("SpawnEnemies");
     }
 
