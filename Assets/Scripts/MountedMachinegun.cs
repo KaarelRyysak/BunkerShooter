@@ -15,10 +15,12 @@ public class MountedMachinegun : MonoBehaviour
     [SerializeField] private float bulletVelocity;
     [SerializeField] private float fireRate;
     private float lastFireTimestamp;
+    private bool firingEnabled;
 
     void Start()
     {
         lastFireTimestamp = 0f;
+        firingEnabled = true;
     }
 
 
@@ -46,10 +48,15 @@ public class MountedMachinegun : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && firingEnabled)
         {
             FireWeapon(weaponModel.transform.forward);
         }
+    }
+
+    public void SetFiringEnabled(bool value)
+    {
+        firingEnabled = value;
     }
 
     private void FireWeapon(Vector3 direction)
@@ -57,6 +64,8 @@ public class MountedMachinegun : MonoBehaviour
         if (Time.time > lastFireTimestamp + fireRate)
         {
             lastFireTimestamp = Time.time;
+            
+            //The bullets are rigidbodies without gravity
             GameObject newBullet = GameObject.Instantiate(bulletPrefab, weaponMuzzle.position, weaponModel.transform.rotation);
             Rigidbody bulletRigidbody = newBullet.GetComponent<Rigidbody>();
             

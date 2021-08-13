@@ -51,7 +51,7 @@ public class EnemyAI : MonoBehaviour
     {
         CoveredSpot closestSpot = null;
         float closestSpotDistance = float.MaxValue;
-        foreach (CoveredSpot spot in CoverManager.I.levelCover)
+        foreach (CoveredSpot spot in GameController.I.coverManager.levelCover)
         {
             float distanceFromSpot = Vector3.Magnitude(spot.transform.position - this.transform.position);
             if (spot.occupiers.Count == 0 && distanceFromSpot < closestSpotDistance)
@@ -78,11 +78,20 @@ public class EnemyAI : MonoBehaviour
             if (health <= 0)
             {
                 GameObject.Destroy(this.gameObject);
+                GameController.I.IncreaseScore(1);
             }
 
             //Trigger visual effect
             StopCoroutine("FadeBetweenColors");
             StartCoroutine("FadeBetweenColors");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "EnemyGoal")
+        {
+            GameController.I.DamagePlayer(1);
         }
     }
 

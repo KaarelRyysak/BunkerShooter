@@ -22,6 +22,11 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine("SpawnEnemies");
     }
 
+    public void StopSpawner()
+    {
+        StopAllCoroutines();
+    }
+
     IEnumerator SpawnEnemies()
     {
         //Find the vector from start point to end point and multiply that by random variable
