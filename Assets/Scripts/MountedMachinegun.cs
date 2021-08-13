@@ -32,10 +32,8 @@ public class MountedMachinegun : MonoBehaviour
             Vector3 aimDirectionVector = raycastHit.point - weaponMuzzle.position;
             aimDirectionVector = Vector3.Normalize(aimDirectionVector);
             Quaternion newRot = Quaternion.LookRotation(aimDirectionVector);
-            //weaponModel.transform.rotation = newRot;
-
             
-            weaponModel.transform.rotation = Quaternion.Lerp(weaponModel.transform.rotation, newRot, Time.deltaTime * turnSpeed);
+            weaponModel.transform.rotation = Quaternion.RotateTowards(weaponModel.transform.rotation, newRot, Time.deltaTime * turnSpeed);
 
             //If the weapon is pointed too low or high, let's rotate it back
             Vector3 forward = weaponModel.transform.forward;

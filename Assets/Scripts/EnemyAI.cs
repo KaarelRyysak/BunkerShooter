@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private Transform destination;
-
     private UnityEngine.AI.NavMeshAgent navMeshAgent;
     [SerializeField] private ENEMY_STATE state;
     #region unity methods
